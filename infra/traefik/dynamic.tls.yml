@@ -1,0 +1,71 @@
+http:
+  middlewares:
+    openvend-security-headers:
+      headers:
+        contentTypeNosniff: true
+        frameDeny: true
+        referrerPolicy: strict-origin-when-cross-origin
+        permissionsPolicy: "camera=(), microphone=(), geolocation=()"
+    openvend-authz-strip:
+      stripPrefix:
+        prefixes:
+          - /api/v1/authz
+    openvend-kratos-strip:
+      stripPrefix:
+        prefixes:
+          - /auth
+  routers:
+    openvend-authz:
+      rule: "PathPrefix(`/api/v1/authz`)"
+      service: openvend-authz
+      entryPoints:
+        - websecure
+      middlewares:
+        - openvend-authz-strip
+        - openvend-security-headers
+      priority: 100
+      tls: {}
+    openvend-kratos:
+      rule: "PathPrefix(`/auth`)"
+      service: openvend-kratos
+      entryPoints:
+        - websecure
+      middlewares:
+        - openvend-kratos-strip
+        - openvend-security-headers
+      priority: 100
+      tls: {}
+    openvend-dashboard:
+      rule: "PathPrefix(`/traefik`)"
+      service: api@internal
+      entryPoints:
+        - websecure
+      priority: 90
+      tls: {}
+    openvend-web:
+      rule: "PathPrefix(`/`)"
+      service: openvend-web
+      entryPoints:
+        - websecure
+      middlewares:
+        - openvend-security-headers
+      priority: 1
+      tls: {}
+  services:
+    openvend-web:
+      loadBalancer:
+        servers:
+          - url: http://web:8080
+    openvend-authz:
+      loadBalancer:
+        servers:
+          - url: http://authorization-adapter:8000
+    openvend-kratos:
+      loadBalancer:
+        servers:
+          - url: http://kratos:4433
+
+tls:
+  certificates:
+    - certFile: /certs/openvend.crt
+      keyFile: /certs/openvend.key

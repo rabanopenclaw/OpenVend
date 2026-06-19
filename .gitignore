@@ -29,3 +29,7 @@ tmp/
 coverage/
 reports/
 THIRD_PARTY_NOTICES.generated.md
+
+# Local TLS material
+infra/traefik/certs/*
+!infra/traefik/certs/.gitkeep

@@ -38,6 +38,19 @@ Default local routes:
 - Kratos public flows: http://localhost:8088/auth
 - Traefik dashboard: http://localhost:18088
 
+Optional TLS profile:
+
+```bash
+mkdir -p infra/traefik/certs
+# Place local or production certificate material here:
+#   infra/traefik/certs/openvend.crt
+#   infra/traefik/certs/openvend.key
+docker compose -f docker-compose.yml -f docker-compose.tls.yml up --build
+```
+
+The TLS overlay exposes HTTPS on `OPENVEND_HTTPS_PORT` (`8443` by default) and
+keeps certificate files out of git.
+
 Run local validation without Docker:
 
 ```bash
