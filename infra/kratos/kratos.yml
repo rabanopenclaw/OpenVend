@@ -1,0 +1,93 @@
+version: v1.3.1
+
+dsn: ${DSN}
+
+serve:
+  public:
+    base_url: ${SERVE_PUBLIC_BASE_URL}
+    cors:
+      enabled: true
+      allowed_origins:
+        - http://localhost:8088
+        - http://localhost:5173
+      allowed_methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+      allowed_headers:
+        - Authorization
+        - Content-Type
+        - Cookie
+      exposed_headers:
+        - Content-Type
+        - Set-Cookie
+      allow_credentials: true
+  admin:
+    base_url: ${SERVE_ADMIN_BASE_URL}
+
+selfservice:
+  default_browser_return_url: ${SELFSERVICE_DEFAULT_BROWSER_RETURN_URL}
+  allowed_return_urls:
+    - http://localhost:8088
+    - http://localhost:5173
+
+  methods:
+    password:
+      enabled: true
+    totp:
+      config:
+        issuer: OpenVend
+      enabled: true
+    lookup_secret:
+      enabled: true
+
+  flows:
+    error:
+      ui_url: ${SELFSERVICE_ERROR_UI_URL}
+    settings:
+      ui_url: ${SELFSERVICE_SETTINGS_UI_URL}
+      privileged_session_max_age: 15m
+      required_aal: aal1
+    recovery:
+      enabled: true
+      ui_url: ${SELFSERVICE_RECOVERY_UI_URL}
+    verification:
+      enabled: true
+      ui_url: ${SELFSERVICE_VERIFICATION_UI_URL}
+    logout:
+      after:
+        default_browser_return_url: ${SELFSERVICE_DEFAULT_BROWSER_RETURN_URL}
+    login:
+      ui_url: ${SELFSERVICE_LOGIN_UI_URL}
+    registration:
+      ui_url: ${SELFSERVICE_REGISTRATION_UI_URL}
+      after:
+        password:
+          hooks:
+            - hook: session
+
+log:
+  level: info
+  format: json
+  leak_sensitive_values: false
+
+secrets:
+  cookie:
+    - ${SECRETS_COOKIE_0}
+  cipher:
+    - ${SECRETS_CIPHER_0}
+
+ciphers:
+  algorithm: xchacha20-poly1305
+
+identity:
+  default_schema_id: default
+  schemas:
+    - id: default
+      url: file:///etc/config/kratos/identity.schema.d/default.schema.json
+
+courier:
+  smtp:
+    connection_uri: smtp://mailhog:1025/?disable_starttls=true

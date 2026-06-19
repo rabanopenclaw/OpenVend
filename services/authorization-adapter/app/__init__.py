@@ -1,0 +1,1 @@
+"""OpenVend Authorization Adapter."""

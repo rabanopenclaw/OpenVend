@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+*.tsbuildinfo
+apps/web/dist/
+apps/web/coverage/
+
+# Environment and local runtime
+.env
+.env.*
+!.env.example
+data/
+tmp/
+*.local
+
+# Generated clients and reports
+coverage/
+reports/
+THIRD_PARTY_NOTICES.generated.md

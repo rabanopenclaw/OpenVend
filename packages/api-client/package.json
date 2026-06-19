@@ -1,0 +1,14 @@
+{
+  "name": "@openvend/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "typecheck": "tsc -p tsconfig.json --pretty false"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
