@@ -57,12 +57,14 @@ select {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
+  min-width: 0;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  min-width: 0;
   padding: 24px 18px;
   background: var(--surface);
   border-right: 1px solid var(--border);
@@ -99,6 +101,7 @@ select {
 .nav-list {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .nav-item {
@@ -109,6 +112,7 @@ select {
   border-radius: 8px;
   color: var(--muted);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .nav-item.active,
@@ -286,6 +290,7 @@ select {
   .nav-list {
     grid-auto-flow: column;
     grid-auto-columns: max-content;
+    max-width: 100%;
     overflow-x: auto;
   }
 
