@@ -13,9 +13,13 @@
     "openapi:authz": "sh scripts/export_openapi.sh",
     "openapi:clients": "npm run openapi:authz && npm run generate --workspace @openvend/api-client",
     "compose:config": "docker compose config --quiet",
-    "license:check": "node scripts/check_dependency_policy.mjs"
+    "license:check": "node scripts/check_dependency_policy.mjs && node scripts/check_node_licenses.mjs",
+    "license:node": "node scripts/check_node_licenses.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "license-checker-rseidelsohn": "4.4.2"
   }
 }

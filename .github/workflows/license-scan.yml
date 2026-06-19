@@ -14,5 +14,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Check dependency policy
-        run: node scripts/check_dependency_policy.mjs
+          cache: npm
+      - name: Install Node dependencies
+        run: npm install
+      - name: Audit Node dependencies
+        run: npm audit --audit-level=high
+      - name: Check Node dependency licenses
+        run: npm run license:check
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Authorization Adapter with audit tools
+        run: pip install -e "services/authorization-adapter[dev]"
+      - name: Audit Python dependencies
+        run: pip-audit services/authorization-adapter --cache-dir .cache/pip-audit --skip-editable
+      - name: Check Python dependency licenses
+        run: python3 scripts/check_python_licenses.py
