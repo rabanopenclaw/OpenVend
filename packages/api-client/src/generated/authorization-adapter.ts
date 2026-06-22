@@ -1,5 +1,5 @@
 // Generated from openapi/authorization-adapter.json.
-// Phase 0 keeps this lightweight until the full client generator is introduced.
+// Phase 1 keeps this lightweight until the full client generator is introduced.
 
 export const authorizationAdapterOperations = [
   {

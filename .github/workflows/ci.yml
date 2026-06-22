@@ -14,12 +14,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install Authorization Adapter
-        run: pip install -e "services/authorization-adapter[dev]"
-      - name: Lint Authorization Adapter
-        run: ruff check services/authorization-adapter
-      - name: Test Authorization Adapter
-        run: pytest services/authorization-adapter/tests
+      - name: Install backend services
+        run: pip install -e "services/authorization-adapter[dev]" -e "services/contacts[dev]"
+      - name: Lint backend services
+        run: ruff check services/authorization-adapter services/contacts scripts/export_openapi.py scripts/check_python_licenses.py
+      - name: Test backend services
+        run: |
+          (cd services/authorization-adapter && pytest tests)
+          (cd services/contacts && pytest tests)
       - name: Export OpenAPI
         run: python3 scripts/export_openapi.py
 
@@ -38,8 +40,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install OpenAPI source service
-        run: pip install -e "services/authorization-adapter"
+      - name: Install OpenAPI source services
+        run: pip install -e "services/authorization-adapter" -e "services/contacts"
       - name: Generate API client
         run: npm run openapi:clients
       - name: Build frontend

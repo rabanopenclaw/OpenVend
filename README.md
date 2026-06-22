@@ -16,6 +16,7 @@ This repository currently implements the Phase 0 foundation:
 - Authorization Adapter FastAPI service with `/health`, `/ready`, `/me`,
   `/permissions`, and `/tokens` foundations. Principal resolution fails closed
   unless development auth is explicitly enabled.
+- Contacts FastAPI service foundation with migrations and scoped CRUD endpoints.
 - PostgreSQL one-instance/multi-database bootstrap scripts.
 - Valkey cache/queue service.
 - React + TypeScript + Vite Web UI shell with sidebar, top bar, routing, theme
@@ -36,6 +37,7 @@ Default local routes:
 
 - Web UI: http://localhost:8088
 - Authorization Adapter API: http://localhost:8088/api/v1/authz
+- Contacts Service API: http://localhost:8088/api/v1/contacts
 - Kratos public flows: http://localhost:8088/auth
 - Traefik dashboard: http://localhost:18088
 
@@ -76,7 +78,9 @@ npm run check
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -e "services/authorization-adapter[dev]"
-pytest services/authorization-adapter/tests
+pip install -e "services/contacts[dev]"
+(cd services/authorization-adapter && pytest tests)
+(cd services/contacts && pytest tests)
 ```
 
 ## Repository Layout
@@ -84,6 +88,7 @@ pytest services/authorization-adapter/tests
 ```text
 apps/web/                         React + Vite Web UI shell
 services/authorization-adapter/    FastAPI authorization foundation
+services/contacts/                 FastAPI contacts CRUD foundation
 infra/                             Traefik, Kratos, and Postgres config
 openapi/                           Generated OpenAPI snapshots
 packages/api-client/               OpenAPI client package placeholder

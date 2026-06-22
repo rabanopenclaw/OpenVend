@@ -24,6 +24,8 @@ services:
         condition: service_started
       authorization-adapter:
         condition: service_healthy
+      contacts:
+        condition: service_healthy
       kratos:
         condition: service_started
     restart: unless-stopped
@@ -53,6 +55,47 @@ services:
       AUTHZ_DEMO_ROLE: ${AUTHZ_DEMO_ROLE:-owner}
     networks:
       - app
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).read()",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    restart: unless-stopped
+
+  contacts-migrate:
+    build:
+      context: .
+      dockerfile: services/contacts/Dockerfile
+    command: alembic upgrade head
+    environment:
+      CONTACTS_DATABASE_URL: ${CONTACTS_DATABASE_URL:-postgresql+pg8000://openvend:openvend-dev-password@postgres:5432/contacts}
+    networks:
+      - app
+      - data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  contacts:
+    build:
+      context: .
+      dockerfile: services/contacts/Dockerfile
+    environment:
+      CONTACTS_DATABASE_URL: ${CONTACTS_DATABASE_URL:-postgresql+pg8000://openvend:openvend-dev-password@postgres:5432/contacts}
+    networks:
+      - app
+      - data
+    depends_on:
+      contacts-migrate:
+        condition: service_completed_successfully
     healthcheck:
       test:
         [

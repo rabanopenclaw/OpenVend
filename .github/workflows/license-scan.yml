@@ -24,9 +24,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install Authorization Adapter with audit tools
-        run: pip install -e "services/authorization-adapter[dev]"
-      - name: Audit Python dependencies
+      - name: Install backend services with audit tools
+        run: pip install -e "services/authorization-adapter[dev]" -e "services/contacts[dev]"
+      - name: Audit Authorization Adapter dependencies
         run: pip-audit services/authorization-adapter --cache-dir .cache/pip-audit --skip-editable
+      - name: Audit Contacts dependencies
+        run: pip-audit services/contacts --cache-dir .cache/pip-audit --skip-editable
       - name: Check Python dependency licenses
         run: python3 scripts/check_python_licenses.py

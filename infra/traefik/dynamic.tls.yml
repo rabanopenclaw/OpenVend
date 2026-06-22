@@ -10,6 +10,10 @@ http:
       stripPrefix:
         prefixes:
           - /api/v1/authz
+    openvend-contacts-strip:
+      stripPrefix:
+        prefixes:
+          - /api/v1/contacts
     openvend-kratos-strip:
       stripPrefix:
         prefixes:
@@ -22,6 +26,16 @@ http:
         - websecure
       middlewares:
         - openvend-authz-strip
+        - openvend-security-headers
+      priority: 100
+      tls: {}
+    openvend-contacts:
+      rule: "PathPrefix(`/api/v1/contacts`)"
+      service: openvend-contacts
+      entryPoints:
+        - websecure
+      middlewares:
+        - openvend-contacts-strip
         - openvend-security-headers
       priority: 100
       tls: {}
@@ -53,6 +67,10 @@ http:
       loadBalancer:
         servers:
           - url: http://authorization-adapter:8000
+    openvend-contacts:
+      loadBalancer:
+        servers:
+          - url: http://contacts:8000
     openvend-kratos:
       loadBalancer:
         servers:

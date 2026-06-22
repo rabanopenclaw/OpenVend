@@ -39,9 +39,11 @@ docker compose ps
 
 wait_for "Web UI" "$PUBLIC_BASE_URL/"
 wait_for "Authorization Adapter" "$PUBLIC_BASE_URL/api/v1/authz/health"
+wait_for "Contacts Service" "$PUBLIC_BASE_URL/api/v1/contacts/health"
 wait_for "Kratos public health" "$PUBLIC_BASE_URL/auth/health/ready"
 
 echo "OpenVend Phase 0 stack is ready:"
 echo "  Web UI: $PUBLIC_BASE_URL"
 echo "  Authorization Adapter: $PUBLIC_BASE_URL/api/v1/authz"
+echo "  Contacts Service: $PUBLIC_BASE_URL/api/v1/contacts"
 echo "  Kratos public flows: $PUBLIC_BASE_URL/auth"
