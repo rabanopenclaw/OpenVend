@@ -35,13 +35,6 @@ http:
         - openvend-security-headers
       priority: 100
       tls: {}
-    openvend-dashboard:
-      rule: "PathPrefix(`/traefik`)"
-      service: api@internal
-      entryPoints:
-        - websecure
-      priority: 90
-      tls: {}
     openvend-web:
       rule: "PathPrefix(`/`)"
       service: openvend-web

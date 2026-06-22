@@ -2,9 +2,14 @@ import { init as checkLicenses } from "license-checker-rseidelsohn";
 
 const deniedFragments = [
   "AGPL",
+  "CDDL",
   "SSPL",
   "BUSL",
   "Commons Clause",
+  "EPL",
+  "GPL",
+  "LGPL",
+  "MPL",
   "PolyForm",
   "RSAL",
 ];

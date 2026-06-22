@@ -374,6 +374,56 @@
     "/permissions": {
       "get": {
         "operationId": "permissions_permissions_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-OpenVend-Identity-Id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Openvend-Identity-Id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-OpenVend-Email",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Openvend-Email"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-OpenVend-Display-Name",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Openvend-Display-Name"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -384,6 +434,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Permissions",

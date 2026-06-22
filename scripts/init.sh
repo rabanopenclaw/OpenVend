@@ -10,6 +10,8 @@ set -a
 . ./.env
 set +a
 
+sh scripts/check_runtime_config.sh .env
+
 PUBLIC_BASE_URL="${OPENVEND_PUBLIC_BASE_URL:-http://localhost:8088}"
 
 wait_for() {

@@ -6,12 +6,21 @@ import sys
 
 DENIED_FRAGMENTS = (
     "AGPL",
+    "CDDL",
     "SSPL",
     "BUSL",
     "Commons Clause",
+    "EPL",
+    "GPL",
+    "LGPL",
+    "MPL",
     "PolyForm",
     "RSAL",
 )
+
+APPROVED_EXCEPTIONS = {
+    "certifi": "MPL-2.0 CA certificate bundle used by development/audit tooling",
+}
 
 
 def main() -> int:
@@ -30,6 +39,8 @@ def main() -> int:
             continue
         license_name = str(package.get("License", "UNKNOWN"))
         if any(fragment.lower() in license_name.lower() for fragment in DENIED_FRAGMENTS):
+            if name in APPROVED_EXCEPTIONS:
+                continue
             violations.append(f"{name}: {license_name}")
 
     if violations:

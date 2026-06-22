@@ -19,6 +19,11 @@ Prefer dependencies under:
 Do not add default runtime dependencies under:
 
 - AGPL
+- GPL
+- LGPL
+- MPL
+- EPL
+- CDDL
 - SSPL
 - RSAL
 - Commons Clause
@@ -34,6 +39,12 @@ Any exception must be:
 - Documented in an ADR under `docs/adr/`.
 - Reviewed before merge.
 - Reflected in third-party notices.
+
+## Approved Scanner Exceptions
+
+- `certifi` under MPL-2.0 is allowed for development/audit tooling as a CA
+  certificate bundle. It must not be used as a precedent for adding MPL
+  business-logic dependencies to the default runtime.
 
 ## Operational Rules
 

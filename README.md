@@ -14,7 +14,8 @@ This repository currently implements the Phase 0 foundation:
 - Traefik edge routing for Web UI, Kratos, and APIs over the internal app network.
 - Ory Kratos base browser-flow configuration.
 - Authorization Adapter FastAPI service with `/health`, `/ready`, `/me`,
-  `/permissions`, and `/tokens` foundations.
+  `/permissions`, and `/tokens` foundations. Principal resolution fails closed
+  unless development auth is explicitly enabled.
 - PostgreSQL one-instance/multi-database bootstrap scripts.
 - Valkey cache/queue service.
 - React + TypeScript + Vite Web UI shell with sidebar, top bar, routing, theme
@@ -37,6 +38,21 @@ Default local routes:
 - Authorization Adapter API: http://localhost:8088/api/v1/authz
 - Kratos public flows: http://localhost:8088/auth
 - Traefik dashboard: http://localhost:18088
+
+The default Compose ports bind to `127.0.0.1`. Set `OPENVEND_HTTP_BIND` and
+`OPENVEND_HTTPS_BIND` deliberately when exposing the stack beyond the local
+machine.
+
+The Authorization Adapter's development principal scaffold is disabled by
+default. For local-only API experiments, set:
+
+```env
+AUTHZ_DEV_AUTH_ENABLED=true
+```
+
+Do not enable this in production. `scripts/init.sh` runs
+`scripts/check_runtime_config.sh` and rejects production startup when placeholder
+secrets remain or development auth is enabled.
 
 Optional TLS profile:
 

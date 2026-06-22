@@ -33,12 +33,6 @@ http:
         - openvend-kratos-strip
         - openvend-security-headers
       priority: 100
-    openvend-dashboard:
-      rule: "PathPrefix(`/traefik`)"
-      service: api@internal
-      entryPoints:
-        - web
-      priority: 90
     openvend-web:
       rule: "PathPrefix(`/`)"
       service: openvend-web
